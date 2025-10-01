@@ -1,0 +1,13 @@
+*opt.go
+*test.go
+input*
+test*
+*.mod
+dayXX
+.aoc_tiles/*
+!.aoc_tiles/tiles/
+
+« Certains participants essaient de résoudre les deux problèmes le plus rapidement possible pour 
+obtenir un plus grand nombre de points et améliorer leur classement dans le “Leaderboard” général. 
+Vous pouvez participer à ce challenge mais cela nécessite de se lever tôt et nous vous le déconseillons 
+parce que cela engendre du stress. »
