@@ -42,13 +42,12 @@ func contains(l []int, x int) bool {
 	return false
 }
 
-func reverse(l []string) []string {
-	res := []string{}
+func reverse[L ~[]E, E any](l L) []E {
+	res := []E{}
 	for i := len(l) - 1; i >= 0; i-- {
 		res = append(res, l[i])
 	}
 	return res
-
 }
 
 func main() {

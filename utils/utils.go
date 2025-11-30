@@ -54,11 +54,11 @@ type PointD struct {
 	x, y, dx, dy int
 }
 
-type 3DPoint struct {
+type Point3D struct {
 	x, y, z int
 }
 
-type 3DPointD struct {
+type Point3DD struct {
 	x, y, z, dx, dy, dz int
 }
 

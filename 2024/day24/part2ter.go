@@ -79,15 +79,16 @@ func mtbmap(start string, m map[string]int) map[string]int {
 	return ans
 }
 
-func noDupes(l []int) []int {
-	seen := map[int]bool{}
-	res := []int{}
+func noDupes[L ~[]E, E comparable](l L) []E {
+	seen := map[E]bool{}
+	res := []E{}
 	for _, el := range l {
 		if !seen[el] {
 			res = append(res, el)
 			seen[el] = true
 		}
 	}
+
 	return res
 }
 

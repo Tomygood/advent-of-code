@@ -3,18 +3,21 @@ package utils
 import (
 	"log"
 	"math"
+	"strconv"
 	"strings"
 )
 
-func copyMatrix(matrix [][]rune) [][]rune {
-	duplicate := make([][]rune, len(matrix))
+// cloneMatrix returns a copy of the given matrix
+func cloneMatrix[L ~[][]E, E any](matrix L) [][]E {
+	duplicate := make([][]E, len(matrix))
 	for i := range matrix {
-		duplicate[i] = make([]rune, len(matrix[i]))
+		duplicate[i] = make([]E, len(matrix[i]))
 		copy(duplicate[i], matrix[i])
 	}
 	return duplicate
 }
 
+// printMatrix outputs the given matrix
 func printMatrix(matrix [][]rune) {
 	for i := range len(matrix) {
 		for j := range len(matrix) {
@@ -25,32 +28,46 @@ func printMatrix(matrix [][]rune) {
 	}
 }
 
-func makeMatrix(n int) [][]rune {
-	matrix := make([][]rune, n)
+// makeMatrix[type] returns a brand new n×n matrix with type elements (type HAS to be specified)
+func makeMatrix[E any](n int) [][]E {
+	matrix := make([][]E, n)
 	for i := range matrix {
-		matrix[i] = make([]rune, n)
+		matrix[i] = make([]E, n)
 	}
 	return matrix
 }
 
-func parseMatrix(s string) [][]rune {
+// parseIntMatrix parses a generic string into a matrix of integers
+func parseIntMatrix(s string) [][]int {
 	var grid = strings.Split(s, "\r\n")
-	mat := makeMatrix(len(grid))
+	mat := makeMatrix[int](len(grid))
 	for i, line := range grid {
 		for j, cha := range line {
-			// n, _ = strconv.Atoi(cha)
-			// mat[i][j] = n
+			n, _ := strconv.Atoi(string(cha))
+			mat[i][j] = n
+		}
+	}
+	return mat
+}
+
+// parseMatrix parses a generic string into a matrix of runes
+func parseMatrix(s string) [][]rune {
+	var grid = strings.Split(s, "\r\n")
+	mat := makeMatrix[rune](len(grid))
+	for i, line := range grid {
+		for j, cha := range line {
 			mat[i][j] = cha
 		}
 	}
 	return mat
 }
 
-func find(matrix [][]rune, goal rune) Point {
+// find returns a Point structure containing the first found occurence of goal in matrix
+func find[L ~[][]E, E comparable](matrix L, goal E) Point {
 	for i, line := range matrix {
 		for j, c := range line {
 			if c == goal {
-				return Point{i, j, 0, 0}
+				return Point{i, j}
 			}
 		}
 	}
@@ -58,12 +75,25 @@ func find(matrix [][]rune, goal rune) Point {
 	return Point{}
 }
 
+// find returns a PointD structure containing the first found occurence of goal in matrix
+func findPointD[L ~[][]E, E comparable](matrix L, goal E) PointD {
+	for i, line := range matrix {
+		for j, c := range line {
+			if c == goal {
+				return PointD{i, j, 0, 0}
+			}
+		}
+	}
+	log.Fatal("Value not found")
+	return PointD{}
+}
+
 // homemade slow-aah DFS do NOT USE, dijkstra just below (here for legacy reasons)
 func dfs(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, score int, end Point) int {
 	if pos == end {
 		return score
 	}
-	deltas := []Point{Point{1, 0}, Point{-1, 0}, Point{0, 1}, Point{0, -1}}
+	deltas := []Point{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 	min := math.MaxInt
 
 	for _, d := range deltas {
@@ -83,14 +113,7 @@ func dfs(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, sc
 	return min
 }
 
-func reverse(l []Point) []Point {
-	res := []Point{}
-	for i := len(l) - 1; i >= 0; i-- {
-		res = append(res, l[i])
-	}
-	return res
-}
-
+// path recreates the path taken to go from start to end using the came_from map
 func path(start Point, end Point, came_from map[Point]Point) []Point {
 	res := []Point{end}
 	cur := end
@@ -101,6 +124,7 @@ func path(start Point, end Point, came_from map[Point]Point) []Point {
 	return reverse(res)
 }
 
+// insert inserts Point el in dequeue queue based on points scores
 func insert(queue []Point, scores map[Point]int, el Point) {
 	if len(queue) == 0 {
 		queue = []Point{el}
@@ -120,6 +144,7 @@ func insert(queue []Point, scores map[Point]int, el Point) {
 	}
 }
 
+// dijkstra returns the length of the shortest path from start to end, as well as a way to recreate paths to each points
 func dijkstra(start Point, end Point, grid [][]rune) (int, map[Point]Point) {
 	came_from := make(map[Point]Point)
 	scores := make(map[Point]int)
@@ -128,7 +153,7 @@ func dijkstra(start Point, end Point, grid [][]rune) (int, map[Point]Point) {
 
 	pqueue := []Point{start}
 
-	deltas := []Point{Point{1, 0}, Point{-1, 0}, Point{0, 1}, Point{0, -1}}
+	deltas := []Point{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 	for len(pqueue) > 0 {
 		v := pqueue[0]
 		pqueue = pqueue[1:]
