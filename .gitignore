@@ -2,7 +2,6 @@
 *test.go
 input*
 test*
-*.mod
 dayXX
 .aoc_tiles/*
 !.aoc_tiles/tiles/
