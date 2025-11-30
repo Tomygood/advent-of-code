@@ -197,11 +197,13 @@ Optimized versions of my solutions for the following puzzles can be found as ``.
 </a>
 <!-- AOC TILES END --> 
 
-## “Inaccurate” 2024 times (days when I started solving the puzzle after 6)
+## “Inaccurate” 2024 times (days when I started solving the puzzle after 6 am CET)
 - <u>day 1</u>: *Anim’Est* made it so that I couldn’t easily do the puzzle earlier
 - <u>day 2</u>: Post-*Anim’Est* sleep (+ I hadn’t made the decision to start seriously doing puzzles)
 - <u>day 3</u>: Started at **6:25** (hadn’t fully commited yet)
 - <u>day 15</u>: Started at **6:16** (alarm somehow didn’t go off — the panic was real)
+
+## “Inaccurate” 2025 times
 
 ## Disclaimer
 
