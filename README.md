@@ -37,7 +37,7 @@ Optimized versions of my solutions for the following puzzles can be found as ``.
 
  These versions constitute a different enough approach to the initial solving method so that keeping both versions stays relevant. Changes can be found at the top of the optimized file.
  
-## Click on the tiles to get to my code!
+## Click on the tiles below to get to my code!
 <!-- AOC TILES BEGIN -->
 <h1 align="center">
   2024 - 48 ⭐ - Go
