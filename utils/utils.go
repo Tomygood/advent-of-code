@@ -5,27 +5,27 @@ import (
 	"strconv"
 )
 
-func abs(x int) int {
+func Abs(x int) int {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
 
-func atoi(s string) int {
+func Atoi(s string) int {
 	v, _ := strconv.Atoi(s)
 	return v
 }
 
-func power(a, b int) int {
+func Power(a, b int) int {
 	return int(math.Pow(float64(a), float64(b)))
 }
 
-func mod(a, b int) int {
+func Mod(a, b int) int {
 	return (a%b + b) % b
 }
 
-func concat(t []rune) string {
+func Concat(t []rune) string {
 	res := ""
 	for _, a := range t {
 		res += string(a)
@@ -33,7 +33,7 @@ func concat(t []rune) string {
 	return res
 }
 
-func listToString(s []rune) string {
+func ListToString(s []rune) string {
 	res := ""
 	for _, c := range s {
 		res += string(c)
@@ -41,7 +41,7 @@ func listToString(s []rune) string {
 	return res
 }
 
-func concatInts(a, b int) int {
+func ConcatInts(a, b int) int {
 	res, _ := strconv.Atoi(strconv.Itoa(a) + strconv.Itoa(b))
 	return res
 }

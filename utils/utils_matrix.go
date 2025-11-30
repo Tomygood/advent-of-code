@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// cloneMatrix returns a copy of the given matrix
-func cloneMatrix[L ~[][]E, E any](matrix L) [][]E {
+// CloneMatrix returns a copy of the given matrix
+func CloneMatrix[L ~[][]E, E any](matrix L) [][]E {
 	duplicate := make([][]E, len(matrix))
 	for i := range matrix {
 		duplicate[i] = make([]E, len(matrix[i]))
@@ -17,8 +17,8 @@ func cloneMatrix[L ~[][]E, E any](matrix L) [][]E {
 	return duplicate
 }
 
-// printMatrix outputs the given matrix
-func printMatrix(matrix [][]rune) {
+// PrintMatrix outputs the given matrix
+func PrintMatrix(matrix [][]rune) {
 	for i := range len(matrix) {
 		for j := range len(matrix) {
 			print(string(matrix[i][j]))
@@ -28,8 +28,8 @@ func printMatrix(matrix [][]rune) {
 	}
 }
 
-// makeMatrix[type] returns a brand new n×n matrix with type elements (type HAS to be specified)
-func makeMatrix[E any](n int) [][]E {
+// MakeMatrix[type] returns a brand new n×n matrix with type elements (type HAS to be specified)
+func MakeMatrix[E any](n int) [][]E {
 	matrix := make([][]E, n)
 	for i := range matrix {
 		matrix[i] = make([]E, n)
@@ -37,10 +37,10 @@ func makeMatrix[E any](n int) [][]E {
 	return matrix
 }
 
-// parseIntMatrix parses a generic string into a matrix of integers
-func parseIntMatrix(s string) [][]int {
+// ParseIntMatrix parses a generic string into a matrix of integers
+func ParseIntMatrix(s string) [][]int {
 	var grid = strings.Split(s, "\r\n")
-	mat := makeMatrix[int](len(grid))
+	mat := MakeMatrix[int](len(grid))
 	for i, line := range grid {
 		for j, cha := range line {
 			n, _ := strconv.Atoi(string(cha))
@@ -50,10 +50,10 @@ func parseIntMatrix(s string) [][]int {
 	return mat
 }
 
-// parseMatrix parses a generic string into a matrix of runes
-func parseMatrix(s string) [][]rune {
+// ParseMatrix parses a generic string into a matrix of runes
+func ParseMatrix(s string) [][]rune {
 	var grid = strings.Split(s, "\r\n")
-	mat := makeMatrix[rune](len(grid))
+	mat := MakeMatrix[rune](len(grid))
 	for i, line := range grid {
 		for j, cha := range line {
 			mat[i][j] = cha
@@ -62,8 +62,8 @@ func parseMatrix(s string) [][]rune {
 	return mat
 }
 
-// find returns a Point structure containing the first found occurence of goal in matrix
-func find[L ~[][]E, E comparable](matrix L, goal E) Point {
+// Find returns a Point structure containing the first found occurence of goal in matrix
+func Find[L ~[][]E, E comparable](matrix L, goal E) Point {
 	for i, line := range matrix {
 		for j, c := range line {
 			if c == goal {
@@ -75,8 +75,8 @@ func find[L ~[][]E, E comparable](matrix L, goal E) Point {
 	return Point{}
 }
 
-// find returns a PointD structure containing the first found occurence of goal in matrix
-func findPointD[L ~[][]E, E comparable](matrix L, goal E) PointD {
+// FindPointD returns a PointD structure containing the first found occurence of goal in matrix
+func FindPointD[L ~[][]E, E comparable](matrix L, goal E) PointD {
 	for i, line := range matrix {
 		for j, c := range line {
 			if c == goal {
@@ -88,8 +88,8 @@ func findPointD[L ~[][]E, E comparable](matrix L, goal E) PointD {
 	return PointD{}
 }
 
-// homemade slow-aah DFS do NOT USE, dijkstra just below (here for legacy reasons)
-func dfs(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, score int, end Point) int {
+// Homemade slow-aah DFS do NOT USE, dijkstra just below (here for legacy reasons)
+func DFS(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, score int, end Point) int {
 	if pos == end {
 		return score
 	}
@@ -102,7 +102,7 @@ func dfs(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, sc
 		if grid[pos.x+d.x][pos.y+d.y] != '#' && !seen[p] && (best > score+1) {
 			seen[p] = true
 			scores[p] = score + 1
-			w := dfs(p, grid, seen, scores, score+1, end)
+			w := DFS(p, grid, seen, scores, score+1, end)
 			if w < min {
 				min = w
 			}
@@ -113,19 +113,19 @@ func dfs(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, sc
 	return min
 }
 
-// path recreates the path taken to go from start to end using the came_from map
-func path(start Point, end Point, came_from map[Point]Point) []Point {
+// Path recreates the path taken to go from start to end using the came_from map
+func Path(start Point, end Point, came_from map[Point]Point) []Point {
 	res := []Point{end}
 	cur := end
 	for cur != start {
 		cur = came_from[end]
 		res = append(res, cur)
 	}
-	return reverse(res)
+	return Reverse(res)
 }
 
-// insert inserts Point el in dequeue queue based on points scores
-func insert(queue []Point, scores map[Point]int, el Point) {
+// Insert inserts Point el in dequeue queue based on points scores
+func Insert(queue []Point, scores map[Point]int, el Point) {
 	if len(queue) == 0 {
 		queue = []Point{el}
 	} else {
@@ -144,8 +144,8 @@ func insert(queue []Point, scores map[Point]int, el Point) {
 	}
 }
 
-// dijkstra returns the length of the shortest path from start to end, as well as a way to recreate paths to each points
-func dijkstra[L ~[][]E, E comparable](start Point, end Point, grid L, wall E) (int, map[Point]Point) {
+// Dijkstra returns the length of the shortest path from start to end, as well as a way to recreate paths to each points
+func Dijkstra[L ~[][]E, E comparable](start Point, end Point, grid L, wall E) (int, map[Point]Point) {
 	came_from := make(map[Point]Point)
 	scores := make(map[Point]int)
 
@@ -166,7 +166,7 @@ func dijkstra[L ~[][]E, E comparable](start Point, end Point, grid L, wall E) (i
 				if !ok || scores[ngh] > new_score {
 					came_from[ngh] = v
 					scores[ngh] = new_score
-					insert(pqueue, scores, ngh)
+					Insert(pqueue, scores, ngh)
 				}
 
 			}
@@ -176,8 +176,8 @@ func dijkstra[L ~[][]E, E comparable](start Point, end Point, grid L, wall E) (i
 	return scores[end], came_from
 }
 
-// dijkstraCosts performs Dijkstra’s algorithm but with a cost function
-func dijkstraCosts[L ~[][]E, E comparable](start Point, end Point, grid L, wall E, cost func(Point, Point) int) (int, map[Point]Point) {
+// DijkstraCosts performs Dijkstra’s algorithm but with a cost function
+func DijkstraCosts[L ~[][]E, E comparable](start Point, end Point, grid L, wall E, cost func(Point, Point) int) (int, map[Point]Point) {
 	came_from := make(map[Point]Point)
 	scores := make(map[Point]int)
 
@@ -198,7 +198,7 @@ func dijkstraCosts[L ~[][]E, E comparable](start Point, end Point, grid L, wall 
 				if !ok || scores[ngh] > new_score {
 					came_from[ngh] = v
 					scores[ngh] = new_score
-					insert(pqueue, scores, ngh)
+					Insert(pqueue, scores, ngh)
 				}
 
 			}
