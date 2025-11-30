@@ -10,6 +10,7 @@ import (
 var inputDay string
 
 func main() {
+
 	fmt.Println("Part 1: ")
 	start := time.Now()
 	part1()

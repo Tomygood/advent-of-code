@@ -1,9 +1,12 @@
 package utils
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
+
+	"golang.design/x/clipboard"
 )
 
 // 2D deltas
@@ -82,4 +85,17 @@ type Point3D struct {
 // Generic 3D point structure with directions dx, dy and dz
 type Point3DD struct {
 	x, y, z, dx, dy, dz int
+}
+
+// ToClipboard writes argument into user’s clipboard
+func ToClipboard[E any](res E) {
+
+	err := clipboard.Init()
+	if err != nil {
+		panic(err)
+	}
+
+	s := fmt.Sprint(res)
+
+	clipboard.Write(clipboard.FmtText, []byte(s))
 }
