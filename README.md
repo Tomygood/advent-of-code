@@ -1,22 +1,41 @@
-# Advent of Code 2024!!
+# Advent of Code in Go
 
-⚠ To execute my solution(s) of any 2024 puzzle on Linux, replace all instances of ``\r\n`` by ``\n`` in all usages of the ``strings.Split`` function.
+> It’s beginning to look a lot like Christmas!
 
-In a terminal located in the main folder, execute
+⚠ To execute my solution(s) of any puzzle on Linux, replace all instances of ``\r\n`` by ``\n`` in all usages of the ``strings.Split`` function.
+
+## Execute 2025 solutions
+
+After adding your puzzle input as ``input.txt`` in the directory of the solution, press ``CTRL+SHIFT+B`` to execute the VSCode Build Task.
+
+Alternatively, you can run the
 
 ```bash
-go run 2024/dayXX/partX.go
+go run .\2025\dayXX\
 ```
 
-obviously replacing ``XX`` with the day number (any day below ten is referenced as ``0X``) and ``X`` by either ``1`` or ``2``.
+command in the root directory, replacing ``XX`` with the day you want to see the solution of (any day below ten is referenced as ``0X``).
 
-Note: optimized versions of my solution for the following puzzles can be found as ``../partX_optimized.go`` files:
+
+## Execute earlier solutions (2023 & 2024)
+
+After adding your puzzle input as ``input.txt`` in the directory of the solution, run in a terminal located in root
+
+```bash
+go run 202[3-4]/dayXX/partX.go
+```
+
+replacing ``XX`` with the day you want to see the solution of (any day below ten is referenced as ``0X``).
+
+## Optimized solutions
+
+Optimized versions of my solutions for the following puzzles can be found as ``../partX_optimized.go`` files:
 - 2024 day 5, part 2
 - 2024 day 6, part 2
 - 2024 day 7, part 1
 - 2024 day 20, part 1
 
- These versions constitute a different enough approach to the initial solving method, which makes it so that keeping both versions is relevant. Changes can be found at the top of the optimized file.
+ These versions constitute a different enough approach to the initial solving method so that keeping both versions stays relevant. Changes can be found at the top of the optimized file.
  
 ## Click on the tiles to get to my code!
 <!-- AOC TILES BEGIN -->
@@ -178,10 +197,15 @@ Note: optimized versions of my solution for the following puzzles can be found a
 </a>
 <!-- AOC TILES END --> 
 
-### “Inaccurate” 2024 times (days when I started solving the puzzle after 6)
-- <u>day 1</u>: *Anim’Est* made it so that I couldn’t easily do the day earlier
-- <u>day 2</u>: Post-*Anim’Est* sleep (+ I hadn’t made the decision to start grinding)
+## “Inaccurate” 2024 times (days when I started solving the puzzle after 6)
+- <u>day 1</u>: *Anim’Est* made it so that I couldn’t easily do the puzzle earlier
+- <u>day 2</u>: Post-*Anim’Est* sleep (+ I hadn’t made the decision to start seriously doing puzzles)
 - <u>day 3</u>: Started at **6:25** (hadn’t fully commited yet)
-- <u>day 15</u>: Started at **6:16** (alarm somehow didn’t go off)
+- <u>day 15</u>: Started at **6:16** (alarm somehow didn’t go off — the panic was real)
+
+## Disclaimer
+
+Any solution and code that you will find in this repositery has been written entirely by hand, usually on the very morning the puzzle was released. This means no AI chatbot, no Copilot inline suggestions… I firmly believe that using these kinds of tools is of great use in programming in general, but that they go against the spirit of algorithmic puzzle solving. This does not mean that I believe that any solution you have designed using LLMs is worth less than what people have done without the use of AI; I just think that they do not have their place in competitive puzzle solving like Advent of Code :3
+
 
 ![33](https://cdn.discordapp.com/emojis/1282954778284130344.webp?size=64)
