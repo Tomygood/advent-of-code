@@ -6,7 +6,7 @@ import "slices"
 // NoDupes returns a version of the slice without duplicate elements
 func NoDupes[L ~[]E, E comparable](l L) []E {
 	seen := map[E]bool{}
-	res := []E{}
+	var res []E
 	for _, el := range l {
 		if !seen[el] {
 			res = append(res, el)
@@ -19,7 +19,7 @@ func NoDupes[L ~[]E, E comparable](l L) []E {
 
 // Flatten concatenates a slice of same-type slices
 func Flatten[L ~[][]E, E any](lists L) []E {
-	res := []E{}
+	var res []E
 	for _, list := range lists {
 		res = append(res, list...)
 	}
@@ -33,7 +33,7 @@ func Union[L ~[]E, E comparable](l1, l2 L) []E {
 
 // Reverse returns a reversed version of the slice given
 func Reverse[L ~[]E, E any](l L) []E {
-	res := []E{}
+	var res []E
 	for i := len(l) - 1; i >= 0; i-- {
 		res = append(res, l[i])
 	}
@@ -51,7 +51,7 @@ func Occurences[L ~[]E, E comparable](l L) map[E]int {
 
 // Intersection performs the intersection operator on two slices
 func Intersection[L ~[]E, E comparable](l1, l2 L) []E {
-	res := []E{}
+	var res []E
 	for _, el := range l1 {
 		if slices.Contains(l2, el) {
 			res = append(res, el)
@@ -65,7 +65,7 @@ func Permutations[L ~[]E, E any](l L) [][]E {
 	if len(l) <= 1 {
 		return [][]E{l}
 	}
-	res := [][]E{}
+	var res [][]E
 	perms := Permutations(l[1:])
 	for _, perm := range perms {
 		for i := 0; i < len(perm)+1; i++ {
@@ -75,5 +75,21 @@ func Permutations[L ~[]E, E any](l L) [][]E {
 		}
 	}
 
+	return res
+}
+
+// Map maps f to l in place
+func MapInPlace[L ~[]E, E any](l L, f func(E) E) {
+	for i, el := range l {
+		l[i] = f(el)
+	}
+}
+
+// Map returns a fresh slice containing each element passed through the function f
+func Map[L ~[]E, E any, F any](l L, f func(E) F) []F {
+	var res []F
+	for _, el := range l {
+		res = append(res, f(el))
+	}
 	return res
 }

@@ -3,11 +3,10 @@ package utils
 import (
 	"log"
 	"math"
-	"strconv"
 	"strings"
 )
 
-// CloneMatrix returns a copy of the given matrix
+// CloneMatrix returns a fresh copy of the given matrix
 func CloneMatrix[L ~[][]E, E any](matrix L) [][]E {
 	duplicate := make([][]E, len(matrix))
 	for i := range matrix {
@@ -20,7 +19,7 @@ func CloneMatrix[L ~[][]E, E any](matrix L) [][]E {
 // PrintMatrix outputs the given matrix
 func PrintMatrix(matrix [][]rune) {
 	for i := range len(matrix) {
-		for j := range len(matrix) {
+		for j := range len(matrix[0]) {
 			print(string(matrix[i][j]))
 			print("  ")
 		}
@@ -28,11 +27,11 @@ func PrintMatrix(matrix [][]rune) {
 	}
 }
 
-// MakeMatrix[type] returns a brand new n×n matrix with type elements (type HAS to be specified)
-func MakeMatrix[E any](n int) [][]E {
+// MakeMatrix[type] returns a brand new n × m matrix with type elements (type HAS to be specified)
+func MakeMatrix[E any](n, m int) [][]E {
 	matrix := make([][]E, n)
 	for i := range matrix {
-		matrix[i] = make([]E, n)
+		matrix[i] = make([]E, m)
 	}
 	return matrix
 }
@@ -40,11 +39,10 @@ func MakeMatrix[E any](n int) [][]E {
 // ParseIntMatrix parses a generic string into a matrix of integers
 func ParseIntMatrix(s string) [][]int {
 	var grid = strings.Split(s, "\r\n")
-	mat := MakeMatrix[int](len(grid))
+	mat := MakeMatrix[int](len(grid), len(grid[0]))
 	for i, line := range grid {
 		for j, cha := range line {
-			n, _ := strconv.Atoi(string(cha))
-			mat[i][j] = n
+			mat[i][j] = Atoi(string(cha))
 		}
 	}
 	return mat
@@ -53,7 +51,7 @@ func ParseIntMatrix(s string) [][]int {
 // ParseMatrix parses a generic string into a matrix of runes
 func ParseMatrix(s string) [][]rune {
 	var grid = strings.Split(s, "\r\n")
-	mat := MakeMatrix[rune](len(grid))
+	mat := MakeMatrix[rune](len(grid), len(grid[0]))
 	for i, line := range grid {
 		for j, cha := range line {
 			mat[i][j] = cha
@@ -93,7 +91,6 @@ func DFS(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, sc
 	if pos == end {
 		return score
 	}
-	deltas := []Point{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 	min := math.MaxInt
 
 	for _, d := range deltas {
@@ -153,7 +150,6 @@ func Dijkstra[L ~[][]E, E comparable](start Point, end Point, grid L, wall E) (i
 
 	pqueue := []Point{start}
 
-	deltas := []Point{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 	for len(pqueue) > 0 {
 		v := pqueue[0]
 		pqueue = pqueue[1:]
@@ -185,7 +181,6 @@ func DijkstraCosts[L ~[][]E, E comparable](start Point, end Point, grid L, wall 
 
 	pqueue := []Point{start}
 
-	deltas := []Point{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 	for len(pqueue) > 0 {
 		v := pqueue[0]
 		pqueue = pqueue[1:]
