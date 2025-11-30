@@ -145,7 +145,7 @@ func insert(queue []Point, scores map[Point]int, el Point) {
 }
 
 // dijkstra returns the length of the shortest path from start to end, as well as a way to recreate paths to each points
-func dijkstra(start Point, end Point, grid [][]rune) (int, map[Point]Point) {
+func dijkstra[L ~[][]E, E comparable](start Point, end Point, grid L, wall E) (int, map[Point]Point) {
 	came_from := make(map[Point]Point)
 	scores := make(map[Point]int)
 
@@ -160,9 +160,41 @@ func dijkstra(start Point, end Point, grid [][]rune) (int, map[Point]Point) {
 
 		for _, d := range deltas {
 			ngh := Point{v.x + d.x, v.y + d.y}
-			if grid[ngh.x][ngh.y] != '#' {
+			if grid[ngh.x][ngh.y] != wall {
 				_, ok := came_from[ngh]
 				new_score := scores[v] + 1
+				if !ok || scores[ngh] > new_score {
+					came_from[ngh] = v
+					scores[ngh] = new_score
+					insert(pqueue, scores, ngh)
+				}
+
+			}
+
+		}
+	}
+	return scores[end], came_from
+}
+
+// dijkstraCosts performs Dijkstra’s algorithm but with a cost function
+func dijkstraCosts[L ~[][]E, E comparable](start Point, end Point, grid L, wall E, cost func(Point, Point) int) (int, map[Point]Point) {
+	came_from := make(map[Point]Point)
+	scores := make(map[Point]int)
+
+	scores[start] = 0
+
+	pqueue := []Point{start}
+
+	deltas := []Point{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
+	for len(pqueue) > 0 {
+		v := pqueue[0]
+		pqueue = pqueue[1:]
+
+		for _, d := range deltas {
+			ngh := Point{v.x + d.x, v.y + d.y}
+			if grid[ngh.x][ngh.y] != wall {
+				_, ok := came_from[ngh]
+				new_score := scores[v] + cost(v, ngh)
 				if !ok || scores[ngh] > new_score {
 					came_from[ngh] = v
 					scores[ngh] = new_score
