@@ -19,7 +19,8 @@ func main() {
 	fmt.Println("Part 2: ")
 	start = time.Now()
 
-	part2()
+	//part2()
+	part2_optimized()
 
 	fmt.Printf("Took %s\n", time.Since(start))
 }
