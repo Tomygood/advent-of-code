@@ -17,12 +17,12 @@ func part2_optimized() {
 		n := utils.Atoi(line[1:])
 		if line[0] == 'R' {
 			if dial+n > 99 {
-				res += utils.Abs((dial + n)) / 100
+				res += (dial + n) / 100
 			}
 			dial = utils.Mod(dial+n, 100)
 		} else {
 			if dial-n <= 0 {
-				res += (utils.Abs((dial - n)) + 100) / 100
+				res += ((n - dial) / 100) + 1
 				if dial == 0 {
 					res--
 				}
