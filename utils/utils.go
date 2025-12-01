@@ -64,7 +64,15 @@ func ConcatIntSlice(l []int) int {
 
 // Lines returns a slices containing each line of the input file
 func Lines(s string) []string {
-	return strings.Split(s, "\r\n")
+	lines := strings.Split(s, "\r\n")
+	var res []string
+	for _, line := range lines {
+		if line != "" {
+			res = append(res, line)
+		}
+	}
+
+	return res
 }
 
 // Generic 2D point structure
