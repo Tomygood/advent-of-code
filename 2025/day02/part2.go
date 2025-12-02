@@ -41,26 +41,21 @@ func valid2(s string) bool {
 
 func part2() {
 
-	lines := utils.Lines(inputDay)
-
 	var res int
 
-	for _, line := range lines {
+	s := strings.Split(inputDay, ",")
 
-		s := strings.Split(line, ",")
+	for _, a := range s {
+		ids := strings.Split(a, "-")
 
-		for _, a := range s {
-			ids := strings.Split(a, "-")
-
-			i := utils.Atoi(ids[0])
-			for i <= utils.Atoi(ids[1]) {
-				if !valid2(strconv.Itoa(i)) {
-					res += i
-				}
-				i++
+		i := utils.Atoi(ids[0])
+		for i <= utils.Atoi(ids[1]) {
+			if !valid2(strconv.Itoa(i)) {
+				res += i
+				i += 9
 			}
+			i++
 		}
-
 	}
 
 	fmt.Println(res)
