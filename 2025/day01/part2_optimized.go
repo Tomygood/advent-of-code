@@ -10,7 +10,7 @@ import (
 func part2_optimized() {
 
 	lines := utils.Lines(inputDay)
-	res := 0
+	var res int
 	dial := 50
 	for _, line := range lines {
 

@@ -48,9 +48,13 @@ func Concat(t []rune) string {
 	return res
 }
 
-// ConcatInts concatenates two integers
-func ConcatInts(a, b int) int {
-	return Atoi(strconv.Itoa(a) + strconv.Itoa(b))
+// ConcatInts concatenates multiple integers
+func ConcatInts(a ...int) int {
+	var res string
+	for _, e := range a {
+		res += strconv.Itoa(e)
+	}
+	return Atoi(res)
 }
 
 // ConcatIntSlice concatenates a slice of integers
