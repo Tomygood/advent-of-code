@@ -1,3 +1,5 @@
+// This version uses modulos to not have to increment or decrement the dial one by one
+
 package main
 
 import (

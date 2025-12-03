@@ -5,6 +5,7 @@ test*
 dayXX
 .aoc_tiles/*
 !.aoc_tiles/tiles/
+benchmark_test.go
 
 « Certains participants essaient de résoudre les deux problèmes le plus rapidement possible pour 
 obtenir un plus grand nombre de points et améliorer leur classement dans le “Leaderboard” général. 

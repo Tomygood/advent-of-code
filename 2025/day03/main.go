@@ -19,7 +19,7 @@ func main() {
 	fmt.Println("Part 2: ")
 	start = time.Now()
 
-	part2()
+	part2_opt()
 
 	fmt.Printf("Took %s\n", time.Since(start))
 }
