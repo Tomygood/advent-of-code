@@ -70,7 +70,6 @@ func part1() {
 				}
 			}
 			if rolls < 4 {
-				fmt.Println(i, j)
 				res++
 			}
 		}

@@ -60,6 +60,27 @@ func ParseMatrix(s string) [][]rune {
 	return mat
 }
 
+func PadMatrix[L ~[][]E, E any](matrix L, val E) L {
+	n, m := len(matrix), len(matrix[0])
+	res := MakeMatrix[E](n+2, m+2)
+
+	res[0] = make([]E, m+2)
+	res[n] = make([]E, m+2)
+
+	for i := range m + 2 {
+		res[0][i], res[n+1][i] = val, val
+	}
+
+	for i, line := range res[1 : n+1] {
+		line[0], line[m+1] = val, val
+		for j := range line[1 : m+1] {
+			res[i+1][j+1] = matrix[i][j]
+		}
+	}
+
+	return res
+}
+
 // Find returns a Point structure containing the first found occurence of goal in matrix
 func Find[L ~[][]E, E comparable](matrix L, goal E) Point {
 	for i, line := range matrix {
@@ -93,10 +114,10 @@ func DFS(pos Point, grid [][]rune, seen map[Point]bool, scores map[Point]int, sc
 	}
 	min := math.MaxInt
 
-	for _, d := range deltas {
-		p := Point{pos.x + d.x, pos.y + d.y}
+	for _, d := range Deltas {
+		p := Point{pos.X + d.X, pos.Y + d.Y}
 		best := scores[p]
-		if grid[pos.x+d.x][pos.y+d.y] != '#' && !seen[p] && (best > score+1) {
+		if grid[pos.X+d.X][pos.Y+d.Y] != '#' && !seen[p] && (best > score+1) {
 			seen[p] = true
 			scores[p] = score + 1
 			w := DFS(p, grid, seen, scores, score+1, end)
@@ -154,9 +175,9 @@ func Dijkstra[L ~[][]E, E comparable](start Point, end Point, grid L, wall E) (i
 		v := pqueue[0]
 		pqueue = pqueue[1:]
 
-		for _, d := range deltas {
-			ngh := Point{v.x + d.x, v.y + d.y}
-			if grid[ngh.x][ngh.y] != wall {
+		for _, d := range Deltas {
+			ngh := Point{v.X + d.X, v.Y + d.Y}
+			if grid[ngh.X][ngh.Y] != wall {
 				_, ok := came_from[ngh]
 				new_score := scores[v] + 1
 				if !ok || scores[ngh] > new_score {
@@ -185,9 +206,9 @@ func DijkstraCosts[L ~[][]E, E comparable](start Point, end Point, grid L, wall 
 		v := pqueue[0]
 		pqueue = pqueue[1:]
 
-		for _, d := range deltas {
-			ngh := Point{v.x + d.x, v.y + d.y}
-			if grid[ngh.x][ngh.y] != wall {
+		for _, d := range Deltas {
+			ngh := Point{v.X + d.X, v.Y + d.Y}
+			if grid[ngh.X][ngh.Y] != wall {
 				_, ok := came_from[ngh]
 				new_score := scores[v] + cost(v, ngh)
 				if !ok || scores[ngh] > new_score {

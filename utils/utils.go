@@ -10,10 +10,12 @@ import (
 )
 
 // 2D deltas
-var deltas = [4]Point{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
+var Deltas = [4]Point{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
+
+var DeltasOrtho = [8]Point{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, 1}, {-1, -1}, {1, -1}}
 
 // 3D deltas
-var deltas3D = [6]Point3D{{0, 0, 1}, {0, 0, -1}, {0, 1, 0}, {0, -1, 0}, {1, 0, 0}, {-1, 0, 0}}
+var Deltas3D = [6]Point3D{{0, 0, 1}, {0, 0, -1}, {0, 1, 0}, {0, -1, 0}, {1, 0, 0}, {-1, 0, 0}}
 
 // Abs(x) returns the absolute value of x as an integer
 func Abs(x int) int {
@@ -81,22 +83,30 @@ func Lines(s string) []string {
 
 // Generic 2D point structure
 type Point struct {
-	x, y int
+	X, Y int
 }
 
 // Generic 2D point structure with directions dx and dy
 type PointD struct {
-	x, y, dx, dy int
+	X, Y, Dx, Dy int
 }
 
 // Generic 3D point structure
 type Point3D struct {
-	x, y, z int
+	X, Y, Z int
 }
 
 // Generic 3D point structure with directions dx, dy and dz
 type Point3DD struct {
-	x, y, z, dx, dy, dz int
+	X, Y, Z, Dx, Dy, Dz int
+}
+
+func AddPoints(p1, p2 Point) Point {
+	return Point{p1.X + p2.X, p1.Y + p2.Y}
+}
+
+func MovePoint(p PointD) PointD {
+	return PointD{p.X + p.Dx, p.Y + p.Dy, p.Dx, p.Dy}
 }
 
 // ToClipboard writes argument into user’s clipboard
