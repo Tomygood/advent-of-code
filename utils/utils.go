@@ -12,6 +12,7 @@ import (
 // 2D deltas
 var Deltas = [4]Point{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
 
+// 2D 8-way deltas
 var DeltasOrtho = [8]Point{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, 1}, {-1, -1}, {1, -1}}
 
 // 3D deltas
@@ -101,15 +102,17 @@ type Point3DD struct {
 	X, Y, Z, Dx, Dy, Dz int
 }
 
+// Returns the sum of two points
 func AddPoints(p1, p2 Point) Point {
 	return Point{p1.X + p2.X, p1.Y + p2.Y}
 }
 
+// MovePoint moves a point to its next value using its current direction
 func MovePoint(p PointD) PointD {
 	return PointD{p.X + p.Dx, p.Y + p.Dy, p.Dx, p.Dy}
 }
 
-// ToClipboard writes argument into user’s clipboard
+// ToClipboard writes argument into system clipboard
 func ToClipboard[E any](res E) {
 
 	err := clipboard.Init()

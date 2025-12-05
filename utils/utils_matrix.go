@@ -60,6 +60,7 @@ func ParseMatrix(s string) [][]rune {
 	return mat
 }
 
+// PadMatrix adds element E to the borders of matrix L
 func PadMatrix[L ~[][]E, E any](matrix L, val E) L {
 	n, m := len(matrix), len(matrix[0])
 	res := MakeMatrix[E](n+2, m+2)
