@@ -12,38 +12,28 @@ func part2() {
 	grid := utils.ParseMatrix(inputDay)
 
 	start := utils.Find(grid, 'S')
-	tachyons := []utils.Point{start}
 
-	worlds := make(map[utils.Point]int)
-	worlds[start] = 1
+	n := len(grid[0])
+	tachyons := make(map[int]int, 1)
+	tachyons[start.Y] = 1
 
-	for range len(grid) - 1 {
+	for i := range len(grid) - 1 {
 
-		var ntech []utils.Point
-		for _, tach := range tachyons {
-
-			if grid[tach.X+1][tach.Y] == '^' {
-
-				l := utils.Point{X: tach.X + 1, Y: tach.Y - 1}
-				r := utils.Point{X: tach.X + 1, Y: tach.Y + 1}
-				ntech = append(ntech, l, r)
-
-				worlds[l] += worlds[tach]
-				worlds[r] += worlds[tach]
-
+		ntech := make(map[int]int, min(n, len(tachyons)*2))
+		for tach, w := range tachyons {
+			if grid[i][tach] == '^' {
+				ntech[tach-1] += w
+				ntech[tach+1] += w
 			} else {
-				n := utils.Point{X: tach.X + 1, Y: tach.Y}
-				ntech = append(ntech, n)
-				worlds[n] += worlds[tach]
+				ntech[tach] += w
 			}
-
 		}
-		tachyons = utils.NoDupes(ntech)
+		tachyons = ntech
 	}
 
 	var res int
 	for _, tech := range tachyons {
-		res += worlds[utils.Point{X: tech.X, Y: tech.Y}]
+		res += tech
 	}
 	fmt.Println(res)
 	utils.ToClipboard(res)

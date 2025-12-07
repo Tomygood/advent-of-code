@@ -13,20 +13,22 @@ func part1() {
 
 	start := utils.Find(grid, 'S')
 	var res int
-	tachyons := []utils.Point{start}
+	tachyons := make(map[int]struct{}, 1)
+	tachyons[start.Y] = struct{}{}
+	n := len(grid[0])
 
-	for range len(grid) - 1 {
-		var ntech []utils.Point
-		for _, tach := range tachyons {
-			if grid[tach.X+1][tach.Y] == '^' {
-				ntech = append(ntech, utils.Point{X: tach.X + 1, Y: tach.Y - 1},
-					utils.Point{X: tach.X + 1, Y: tach.Y + 1})
+	for i := range len(grid) - 1 {
+		var ntach = make(map[int]struct{}, min(n, len(tachyons)*2))
+		for tach := range tachyons {
+			if grid[i][tach] == '^' {
+				ntach[tach-1] = struct{}{}
+				ntach[tach+1] = struct{}{}
 				res++
 			} else {
-				ntech = append(ntech, utils.Point{X: tach.X + 1, Y: tach.Y})
+				ntach[tach] = struct{}{}
 			}
 		}
-		tachyons = utils.NoDupes(ntech)
+		tachyons = ntach
 	}
 	fmt.Println(res)
 	utils.ToClipboard(res)
