@@ -13,13 +13,13 @@ func main() {
 
 	fmt.Println("Part 1: ")
 	start := time.Now()
-	part1()
+	part1_opt()
 	fmt.Printf("Took %s\n\n", time.Since(start))
 
 	fmt.Println("Part 2: ")
 	start = time.Now()
 
-	part2()
+	part2_opt()
 
 	fmt.Printf("Took %s\n", time.Since(start))
 }
