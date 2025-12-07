@@ -12,27 +12,27 @@ func part1() {
 
 	lines := utils.Lines(inputDay)
 
-	ops := utils.MakeMatrix[int](len(lines[0]), len(lines[0]))
+	ops := [][]int{{}}
 
 	for i, line := range lines {
 		a := strings.Split(line, " ")
-		n := 0
+		var n int
 		for _, d := range a {
 			if utils.Atoi(d) != 0 {
-				ops[n][i] = utils.Atoi(d)
+				ops[n] = append(ops[n], utils.Atoi(d))
 				n++
+				if i == 0 {
+					ops = append(ops, []int{})
+				}
 			}
 		}
 	}
 
 	opera := strings.Split(lines[len(lines)-1], " ")
-	n := 0
-	res := 0
+	var n, res, r int
 
 	for _, op := range opera {
 		if len(op) != 0 {
-
-			r := 0
 			switch op {
 			case "+":
 				r = 0
@@ -43,15 +43,11 @@ func part1() {
 			case "*":
 				r = 1
 				for _, v := range ops[n] {
-					if v == 0 {
-						break
-					}
-					r = r * v
+					r *= v
 				}
 				res += r
 			}
 			n++
-
 		}
 	}
 
