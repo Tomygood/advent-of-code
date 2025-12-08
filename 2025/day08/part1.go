@@ -24,34 +24,35 @@ func part1() {
 		boxes = append(boxes, utils.Point3D{X: x, Y: y, Z: z})
 	}
 
-	circuits := [][]utils.Point3D{}
-	for _, box := range boxes {
-		circuits = append(circuits, []utils.Point3D{box})
+	circuits := [][]int{}
+	for i := range boxes {
+		circuits = append(circuits, []int{i})
 	}
 
-	taken := map[[2]utils.Point3D]bool{}
+	taken := map[[2]int]bool{}
 
-	var ma, mb utils.Point3D
+	var ma, mb int
 
 	for range 1000 {
 		m := math.MaxInt
 
 		for i, a := range boxes {
-			for _, b := range boxes[i+1:] {
-				if taken[[2]utils.Point3D{a, b}] {
+			for j := i + 1; j < len(boxes); j++ {
+				b := boxes[j]
+				if taken[[2]int{i, j}] {
 					continue
 				}
 				d := distance(a, b)
 				if d < m {
 					m = d
-					ma, mb = a, b
+					ma, mb = i, j
 				}
 			}
 		}
 
-		taken[[2]utils.Point3D{ma, mb}] = true
+		taken[[2]int{ma, mb}] = true
 
-		var c1, c2 = -1, -1
+		var c1, c2 int
 		for c, circuit := range circuits {
 			if slices.Contains(circuit, ma) {
 				c1 = c

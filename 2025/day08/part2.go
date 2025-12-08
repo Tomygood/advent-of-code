@@ -20,57 +20,54 @@ func part2() {
 		boxes = append(boxes, utils.Point3D{X: x, Y: y, Z: z})
 	}
 
-	circuits := [][]utils.Point3D{}
-	for _, box := range boxes {
-		circuits = append(circuits, []utils.Point3D{box})
+	circuits := [][]int{}
+	circuit_map := map[int]int{}
+	for i := range boxes {
+		circuits = append(circuits, []int{i})
+		circuit_map[i] = i
 	}
 
-	taken := map[[2]utils.Point3D]bool{}
+	taken := map[[2]int]bool{}
 
-	var ma, mb utils.Point3D
-	var la, lb utils.Point3D
+	var ma, mb int
+	var la, lb int
 
-	for len(circuits) != 1 {
+	cir := len(circuits)
+	for cir != 1 {
 		m := math.MaxInt
 
 		for i, a := range boxes {
-			for _, b := range boxes[i+1:] {
-				if taken[[2]utils.Point3D{a, b}] {
+			for j := i + 1; j < len(boxes); j++ {
+				b := boxes[j]
+				if taken[[2]int{i, j}] {
 					continue
 				}
 				d := distance(a, b)
 				if d < m {
 					m = d
-					ma, mb = a, b
+					ma, mb = i, j
 				}
 			}
 		}
 
-		taken[[2]utils.Point3D{ma, mb}] = true
+		taken[[2]int{ma, mb}] = true
 
-		var c1, c2 int
-		for c, circuit := range circuits {
-			if slices.Contains(circuit, ma) {
-				c1 = c
-			}
-			if slices.Contains(circuit, mb) {
-				c2 = c
-			}
-		}
+		c1 := circuit_map[ma]
+		c2 := circuit_map[mb]
 
 		if c1 != c2 {
 			circuits[c1] = slices.Concat(circuits[c1], circuits[c2])
 			la, lb = ma, mb
 
-			if c2 != len(circuits) {
-				circuits = append(circuits[:c2], circuits[c2+1:]...)
-			} else {
-				circuits = circuits[:c2]
+			for _, c := range circuits[c2] {
+				circuit_map[c] = c1
 			}
+
+			cir--
 		}
 	}
 
-	res := la.X * lb.X
+	res := boxes[la].X * boxes[lb].X
 
 	fmt.Println(res)
 	utils.ToClipboard(res)
