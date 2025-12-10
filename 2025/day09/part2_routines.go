@@ -26,7 +26,7 @@ func part2_routines() {
 		corners = append(corners, utils.Point{X: y, Y: x})
 	}
 
-	var marea int
+	var m int
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 
@@ -37,20 +37,25 @@ func part2_routines() {
 			defer wg.Done()
 
 			var localMax int
-			foundCandidate := false
 
 			for j := i + 1; j < len(corners); j++ {
 				if !rg(valX, corners[j], corners) {
-					a := area(c, corners[j])
-					if a > marea {
-						marea = a
+					val := area(c, corners[j])
+					if val > localMax {
+						localMax = val
 					}
 				}
 			}
+
+			mu.Lock()
+			if localMax > m {
+				m = localMax
+			}
+			mu.Unlock()
 		}(c)
-
 	}
+	wg.Wait()
 
-	fmt.Println(marea)
-	utils.ToClipboard(marea)
+	fmt.Println(m)
+	utils.ToClipboard(m)
 }
