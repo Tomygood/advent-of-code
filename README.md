@@ -36,6 +36,7 @@ Optimized versions of my solutions for the following puzzles can be found as ``.
 - 2024 day 20, part 1
 - 2025 day 1, part 2
 - 2025 day 3, part 2
+- 2025 day 7, both parts
 
  These versions constitute a different enough approach to the initial solving method so that keeping both versions stays relevant. Changes can be found at the top of the optimized file.
  
