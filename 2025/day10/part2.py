@@ -40,5 +40,3 @@ with open(input_path, 'r') as file:
 
 
 print("Part 2 result:", int(tot))
-
-
