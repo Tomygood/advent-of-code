@@ -10,16 +10,11 @@ import (
 
 func find_paths(start, end string, conn map[string][]string) int {
 
-	paths := map[string]int{end: 1}
+	paths := make(map[string]int, len(conn))
+	paths[end] = 1
 
 	for paths[start] == 0 {
-
 		for k, v := range conn {
-
-			if paths[k] != 0 {
-				continue
-			}
-
 			flag := true
 			var tot int
 			for _, w := range v {
@@ -33,6 +28,9 @@ func find_paths(start, end string, conn map[string][]string) int {
 				continue
 			}
 			paths[k] = tot
+
+			delete(conn, k)
+
 		}
 	}
 	return paths[start]
@@ -46,9 +44,7 @@ func part1() {
 
 	for _, line := range lines {
 		a := strings.Split(line, ":")
-		for _, b := range strings.Split(a[1][1:], " ") {
-			conn[a[0]] = append(conn[a[0]], b)
-		}
+		conn[a[0]] = append(conn[a[0]], strings.Split(a[1][1:], " ")...)
 	}
 
 	res := find_paths("you", "out", conn)

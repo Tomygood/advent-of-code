@@ -10,46 +10,40 @@ import (
 
 func find_paths2(start, end string, conn map[string][]string) int {
 
-	paths := map[string]int{end: 1}
+	paths := make(map[string]int, len(conn))
+	paths[end] = 1
 
-	valid_dac := map[string]int{}
-	valid := map[string]int{}
+	valid := make(map[string]int, len(conn))
 
 	for paths[start] == 0 {
-
 		for k, v := range conn {
-
-			if paths[k] != 0 {
-				continue
-			}
-
 			flag := true
-			var tot, tot_d, tot_f int
+			var tot, tot_f int
 			for _, w := range v {
 				if paths[w] == 0 {
 					flag = false
 					break
 				}
 				tot += paths[w]
-				tot_d += valid_dac[w]
 				tot_f += valid[w]
 			}
-
 			if !flag {
 				continue
 			}
-
 			paths[k] = tot
-			valid_dac[k] = tot_d
-			valid[k] = tot_f
+
 			if k == "dac" {
-				valid_dac[k] = tot
+				valid[k] = tot
+				continue
 			}
 
 			if k == "fft" {
-				valid[k] = tot_d
+				clear(valid)
 			}
 
+			valid[k] = tot_f
+
+			delete(conn, k)
 		}
 	}
 	return valid[start]
@@ -63,9 +57,7 @@ func part2() {
 
 	for _, line := range lines {
 		a := strings.Split(line, ":")
-		for _, b := range strings.Split(a[1][1:], " ") {
-			conn[a[0]] = append(conn[a[0]], b)
-		}
+		conn[a[0]] = append(conn[a[0]], strings.Split(a[1][1:], " ")...)
 	}
 
 	res := find_paths2("svr", "out", conn)
